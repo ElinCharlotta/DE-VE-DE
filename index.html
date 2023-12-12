@@ -4,19 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="CSS/style.css">
+
     <title>DE-VE-DE</title>
 </head>
 
 <body>
     <main>
         <header class="header">
-            <h1>Choose Your Weapon </h1>
-            <section class="Add-movie-to-list">
-                <input type="text" id="title" placeholder="Title" />
-                <input type="text" id="genre" placeholder="Genre" />
-                <input type="text" id="releaseDate" placeholder="Release Date" />
-                <button class="add-movie-btn" id="addMovieButton">Add to List</button>
+            <h1> DE-VE-DE</h1>
+            <h2>MOVIE TRACKER</h2>
+            <section class="show-search-container">
+                <article class="input-fields">
+                    <input type="text" id="title" placeholder="Title" />
+                    <input type="text" id="genre" placeholder="Genre" />
+                    <input type="text" id="releaseDate" placeholder="Release Date" />
+                </article>
+                <article class="show-search-buttons">
+                    <button class="Show-all-movies" id="showAllMovies">Show All Movies</button>
+                    <button class="add-movie-btn" id="addMovieButton">Add to List</button>
+                    <button class="search-by-title" id="searchMovieByTitle">Search Movie By Title</button>
+
+                </article>
+
+                <article class="searched-message-container" id="searchedMessageContainer"></article>
+                <article class="searched-movie" id="searchedMovieContainer"></article>
 
             </section>
 
@@ -24,7 +41,7 @@
     </main>
 
 
-    <script type="module" src="movie.js"></script>
+    <script type="module" src="Javascript/movie.js"></script>
 </body>
 
 </html>
