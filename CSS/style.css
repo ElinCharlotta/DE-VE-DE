@@ -18,6 +18,10 @@ h2 {
     margin-top: 0.5rem;
 }
 
+
+p{
+    margin: 0.2rem;
+}
 .header {
     display: flex;
     flex-direction: column;
@@ -41,9 +45,11 @@ input {
 }
 
 
+
 .add-movie-btn,
 .Show-all-movies,
 .search-by-title {
+
     color: #e5e2ea;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -52,6 +58,7 @@ input {
     padding: 0.5rem 1rem 0.5rem 1rem;
     background-color: #607382c8;
     margin: 1rem;
+
 }
 
 .movie-list {
@@ -64,18 +71,20 @@ input {
     padding: 0rem 5rem 0rem 5rem;
     color: #e5e2ea;
     word-break: break-all;
+
 }
 
 
 .movie-list-article {
-    margin: 2rem;
-    word-break:break-all;
-    max-width: 200px;
+    margin: 0rem 1rem 1rem 1rem;
+    word-break: break-all;
+    width: 210px;
+    height: 200px;
 }
 
-.remove-button,
+.delete-button,
 .watched-button {
-    
+
     color: #e5e2ea;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -83,8 +92,15 @@ input {
     border-style: none;
     padding: 0.5rem 1rem 0.5rem 1rem;
     background-color: #607382c8;
+    margin-top: 1rem;
     margin-right: 0.5rem;
+    justify-self: last baseline;
 
+
+}
+
+.watched-property{
+    font-weight: 700;
 }
 
 .searched-movie {
@@ -92,7 +108,7 @@ input {
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    margin: 2rem 2rem 0rem 2rem;
+    margin: 2rem;
     padding: 0rem 4rem 0rem 4rem;
     color: #e5e2ea;
 }

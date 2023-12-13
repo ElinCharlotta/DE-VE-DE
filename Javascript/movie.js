@@ -19,15 +19,16 @@ function clearMessages() {
 }
 
 async function addMovieToList() {
-    const movie = {
+
+    const newMovie = {
         title: titleInput.value,
         genre: genreInput.value,
         releaseDate: releaseDateInput.value,
         watched: false
     };
     try {
-        const movieAdd = collection(db, 'movie');
-        await addDoc(movieAdd, movie);
+        const movieCollections = collection(db, 'movie');
+        await addDoc(movieCollections, newMovie);
         console.log('Movie added successfully!');
         await getMovie();
     } catch (error) {
@@ -39,7 +40,7 @@ async function addMovieToList() {
 
 async function getMovie() {
     clearMessages();
-   
+
     // Reset the searched movie container
     const searchedMovieContainer = document.querySelector('#searchedMovieContainer');
     searchedMovieContainer.innerHTML = '';
@@ -62,6 +63,7 @@ async function getMovie() {
 
     displayMovies(allMovies);
 }
+
 showAllMoviesButton.addEventListener('click', getMovie);
 
 
@@ -76,26 +78,27 @@ async function displayMovies(movies) {
                 <h3>${movie.title}</h3>
                 <p>Genre: ${movie.genre}</p>
                 <p>ReleaseDate: ${movie.releaseDate}</p>
-                <p>Watched: ${movie.watched ? 'Yes' : 'No'}</p>
+                <p>Watched: <strong>${movie.watched ? 'Yes' : 'No'}</p>
             `;
-            const removeButton = document.createElement('button');
             const watchedButton = document.createElement('button');
+            const deleteButton = document.createElement('button');
 
-            removeButton.classList.add('remove-button');
+
+            deleteButton.classList.add('delete-button');
             watchedButton.classList.add('watched-button');
             movieElement.classList.add('movie-list-article')
 
-            removeButton.innerText = 'Delete';
+            deleteButton.innerText = 'Delete';
             watchedButton.innerText = movie.watched ? 'Not Watched' : 'Watched';
 
-            movieElement.appendChild(removeButton);
+            movieElement.appendChild(deleteButton);
             movieElement.appendChild(watchedButton);
 
             movieListContainer.append(movieElement);
 
-            removeButton.addEventListener('click', async () => {
+            deleteButton.addEventListener('click', async () => {
                 try {
-                    await removeMovie(movie.id);    
+                    await deleteMovieById(movie.id);
                 } catch (error) {
                     console.log(`ERROR: ${error}`);
                 }
@@ -103,7 +106,7 @@ async function displayMovies(movies) {
 
             watchedButton.addEventListener('click', async () => {
                 try {
-                    await handleWatchedButtonClick(movie.id, watchedButton) 
+                    await handleWatchedButtonClick(movie.id, watchedButton)
                     await getMovie();
                 } catch (error) {
                     console.log(`ERROR: ${error}`);
@@ -116,25 +119,34 @@ async function displayMovies(movies) {
 }
 
 
+// Add movie to list BBUTTON EVENT
 addMovieButton.addEventListener('click', async (movie) => {
 
-    const existingMovie = await checkIfMovieExists(movie.title);
-    if (existingMovie) {
-     
-        searchedMessageContainer.innerHTML = 'Movie already exists!';
+    const title = titleInput.value;
+    const genre = genreInput.value;
+    const releaseDate = releaseDateInput.value;
 
+    if (!title || !genre || !releaseDate) {
+        searchedMessageContainer.innerHTML = 'Please enter information about movie in all fields!'
     } else {
-        await addMovieToList(movie);
-       
-        searchedMessageContainer.innerHTML = 'Movie added to your list!';
-        
-    }
+        const existingMovie = await checkIfMovieExists(movie.title);
+        if (existingMovie) {
+            searchedMessageContainer.innerHTML = 'Movie already exists!';
+        } else {
+            await addMovieToList(movie);
+            searchedMessageContainer.innerHTML = 'Movie added to your list!';
 
+        }
+    }
 });
-async function removeMovie(movieId){
+
+
+
+// Function to remove movie when you press delete button. Event attached in displayMovie and displaySearchedMovie
+async function deleteMovieById(movieId) {
     try {
-        const movieDeleteById = doc(db, 'movie', movieId);
-        await deleteDoc(movieDeleteById);
+        const movieDocument = doc(db, 'movie', movieId);
+        await deleteDoc(movieDocument);
         getMovie();
         searchedMessageContainer.innerHTML = 'Movie deleted from list';
 
@@ -143,6 +155,7 @@ async function removeMovie(movieId){
     }
 }
 
+// SEARCHED MOVIE DISPLAY
 async function displaySearchedMovie(foundMovie) {
     clearMessages();
     const searchedMovieContainer = document.querySelector('#searchedMovieContainer');
@@ -157,28 +170,29 @@ async function displaySearchedMovie(foundMovie) {
         <h3>${movieData.title}</h3>
         <p> Genre: ${movieData.genre}</p>
         <p> releasedate: ${movieData.releaseDate}</p>
-        <p>Watched: ${movieData.watched ? 'Yes' : 'No'}</p>
+        <p>Watched: <strong>${movieData.watched ? 'Yes' : 'No'}</p>
         `;
 
         searchedMovieContainer.appendChild(movieElement);
-        const removeButton = document.createElement('button');
         const watchedButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
 
-        removeButton.classList.add('remove-button');
+
+        deleteButton.classList.add('delete-button');
         watchedButton.classList.add('watched-button');
 
-        removeButton.innerText = 'Delete';
+        deleteButton.innerText = 'Delete';
         watchedButton.innerText = movieData.watched ? 'Not Watched' : 'Watched';
 
-        movieElement.appendChild(removeButton);
+        movieElement.appendChild(deleteButton);
         movieElement.appendChild(watchedButton);
 
         const movieId = foundMovie.id;
 
-        removeButton.addEventListener('click', async () => {
+        deleteButton.addEventListener('click', async () => {
             try {
-                removeMovie(movieId)
-      
+                deleteMovieById(movieId)
+
                 getMovie();
             } catch (error) {
                 console.log(`ERROR: ${error}`);
@@ -187,28 +201,30 @@ async function displaySearchedMovie(foundMovie) {
 
         watchedButton.addEventListener('click', async () => {
             try {
-               await handleWatchedButtonClick(movieId, watchedButton) 
+                await handleWatchedButtonClick(movieId, watchedButton)
 
                 const updatedMovie = await getDoc(doc(db, 'movie', movieId));
                 await displaySearchedMovie(updatedMovie)
             } catch (error) {
 
                 console.log(`ERROR: ${error}`);
-            } 
+            }
         });
-    }else {
+    } else {
         searchedMovieContainer.innerHTML = 'Movie not found, would you like to add movie to list,<br> Please enter GENRE and RELEASE DATE'
-                
+
     }
 }
 
-// Attach the event by with function
+// SearchButton event - check if movie exists with checkIfMovieExists(searchMovieTitle) -  if movie exxists display searched movie
 searchMovieByTitle.addEventListener('click', async () => {
     const searchMovieTitle = document.querySelector('#title').value;
     const foundMovie = await checkIfMovieExists(searchMovieTitle);
     await displaySearchedMovie(foundMovie);
 });
 
+
+// check if movie is in Firebase 
 async function checkIfMovieExists() {
     const movieTitle = document.querySelector('#title').value;
     const titleQuery = query(collection(db, 'movie'), where('title', '==', movieTitle))
@@ -224,6 +240,8 @@ async function checkIfMovieExists() {
     return foundMovie;
 }
 
+
+// WatchedButton Function - what happens when I click  WatchedButton
 async function handleWatchedButtonClick(movieId, watchedButton) {
     try {
         const getMovieById = doc(db, 'movie', movieId);
@@ -232,10 +250,10 @@ async function handleWatchedButtonClick(movieId, watchedButton) {
 
         // Update the watched property in Firestore to true/false
         await updateDoc(getMovieById, { watched: !watched });
-        
+
         watchedButton.innerText = !watched ? 'Not Watched' : 'Watched';
-  
+
     } catch (error) {
         console.log(`ERROR: ${error}`);
-    } 
+    }
 }
