@@ -19,29 +19,29 @@
         <header class="header">
             <h1> DE-VE-DE</h1>
             <h2>MOVIE TRACKER</h2>
+            
             <section class="show-search-container">
                 <article class="input-fields">
                     <input type="text" id="title" placeholder="Title" />
                     <input type="text" id="genre" placeholder="Genre" />
                     <input type="text" id="releaseDate" placeholder="Release Date" />
-                </article>
-                <article class="show-search-buttons">
+                </section>
+
+                <section class="show-search-buttons">
                     <button class="Show-all-movies" id="showAllMovies">Show All Movies</button>
                     <button class="add-movie-btn" id="addMovieButton">Add to List</button>
                     <button class="search-by-title" id="searchMovieByTitle">Search Movie By Title</button>
 
-                </article>
+                </section>
 
-                <article class="searched-message-container" id="searchedMessageContainer"></article>
-                <article class="searched-movie" id="searchedMovieContainer"></article>
+                <article class="searched-container" id="messageContainer"></article>
 
             </section>
-
             <div class="movie-list" id="movieList"></div>
     </main>
 
 
-    <script type="module" src="Javascript/movie.js"></script>
+    <script type="module" src="Javascript/main.js"></script>
 </body>
 
 </html>

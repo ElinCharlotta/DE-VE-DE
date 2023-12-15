@@ -29,7 +29,7 @@ p{
 
 }
 
-.show-search-container {
+.show-search-container{
     font-family: 'Lato', sans-serif;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,6 @@ input {
     height: 2rem;
     text-align: center;
 }
-
 
 
 .add-movie-btn,
@@ -74,8 +73,7 @@ input {
 
 }
 
-
-.movie-list-article {
+.Movie-element-container{
     margin: 0rem 1rem 1rem 1rem;
     word-break: break-all;
     width: 210px;
@@ -84,7 +82,6 @@ input {
 
 .delete-button,
 .watched-button {
-
     color: #e5e2ea;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -95,20 +92,17 @@ input {
     margin-top: 1rem;
     margin-right: 0.5rem;
     justify-self: last baseline;
-
-
 }
 
-.watched-property{
-    font-weight: 700;
+.watched-button{
+    width: 7rem;
 }
 
-.searched-movie {
-    display: flex;
+
+.searched-container  {
     margin-left: auto;
     margin-right: auto;
-    display: flex;
-    margin: 2rem;
+    margin: 1rem;
     padding: 0rem 4rem 0rem 4rem;
     color: #e5e2ea;
 }
